@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧪 Perfume Lab - Profesyonel Parfüm Formülasyon Aracı
 
-## Getting Started
+Parfüm yapmak bir sanattır, ancak arkasındaki matematik bir bilimdir. 
 
-First, run the development server:
+Bu proje, parfüm tutkunlarının, hobistlerin ve butik üreticilerin kendi kokularını tasarlarken ihtiyaç duydukları tüm teknik hesaplamaları saniyeler içinde yapabilmeleri için geliştirildi. Karmaşık Excel tabloları veya "göz kararı" ölçümler yerine, laboratuvar hassasiyetinde formüller oluşturmanızı sağlar.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Amacım, yaratıcılığınızı teknik detaylarla bölmeden, tamamen kokuya odaklanmanızı sağlamak.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Öne Çıkan Özellikler
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*   **🔍 Akıllı Esans Veritabanı:** 1900'den fazla kayıtlı esans verisi. Marka, 'Muadil' isim veya SKU ile arama yapın, sistem seçtiğiniz esansın yoğunluk (density) değerini otomatik olarak formüle dahil etsin.
+*   **⚗️ Hassas Oran Hesaplayıcı:** Hedeflediğiniz konsantrasyona (EDP, EDT, Parfum vb.) göre Esans, Alkol, Su ve Fixative oranlarını hem **gram** hem de **mililitre** cinsinden otomatik hesaplar.
+*   **💰 Anlık Maliyet Analizi:** Esans, alkol ve şişe maliyetlerinizi girin, bir şişe parfümün size kaça mal olduğunu anında görün.
+*   **🧪 Görsel Simülasyon:** Hazırladığınız karışımın şişe içerisinde nasıl dağılacağını interaktif bir görsel üzerinde inceleyin.
+*   **💾 Kişisel Laboratuvarınız:** Mükemmel formülü bulduğunuzda kaybolmasına izin vermeyin. Formüllerinizi isimlendirin, notlar ekleyin (örn: "3 hafta demlenmeli") ve tarayıcınızda güvenle saklayın.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Teknolojiler
 
-## Learn More
+Bu proje, modern web teknolojileri kullanılarak performans ve kullanıcı deneyimi ön planda tutularak tasarlandı:
 
-To learn more about Next.js, take a look at the following resources:
+*   **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+*   **Dil:** [TypeScript](https://www.typescriptlang.org/)
+*   **Stil & UI:** [Tailwind CSS](https://tailwindcss.com/) & [Shadcn/ui](https://ui.shadcn.com/)
+*   **İkonlar:** [Lucide React](https://lucide.dev/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Kurulum ve Çalıştırma
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
 
-## Deploy on Vercel
+1.  Projeyi klonlayın:
+    ```bash
+    git clone https://github.com/kullaniciadi/parfum-site.git
+    cd parfum-site
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  Gerekli paketleri yükleyin:
+    ```bash
+    npm install
+    # veya
+    yarn install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  Geliştirme sunucusunu başlatın:
+    ```bash
+    npm run dev
+    ```
+
+4.  Tarayıcınızda `http://localhost:3000` adresine gidin.
+
+---
