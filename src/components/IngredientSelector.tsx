@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -19,15 +20,16 @@ interface IngredientSelectorProps {
 }
 
 export function IngredientSelector({ value, onChange }: IngredientSelectorProps) {
+  const { t } = useLanguage();
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
-  
+
   // Limiting results for performance, as 1900 items might be heavy in a simple list without virtualization
   // But standard command might handle it.
-  
+
   const filteredEssences = React.useMemo(() => {
     if (!search) return essencesData.slice(0, 50);
-    return essencesData.filter((item) => 
+    return essencesData.filter((item) =>
       item.muadil.toLowerCase().includes(search.toLowerCase()) ||
       item.brand_search.toLowerCase().includes(search.toLowerCase()) ||
       item.sku.toLowerCase().includes(search.toLowerCase())
@@ -44,7 +46,7 @@ export function IngredientSelector({ value, onChange }: IngredientSelectorProps)
           className="w-full justify-between h-12 text-lg bg-background/50 backdrop-blur-sm border-amber-500/20 hover:border-amber-500/50 transition-all font-serif"
         >
           <span className="truncate text-left flex-1">
-            {value ? `${value.sku} - ${value.muadil}` : "Esans Seçiniz..."}
+            {value ? `${value.sku} - ${value.muadil}` : t('selectEssencePlaceholder')}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -54,14 +56,14 @@ export function IngredientSelector({ value, onChange }: IngredientSelectorProps)
           <div className="flex items-center border-b border-zinc-800 px-3">
              <input
                 className="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Marka, İsim veya SKU ara..."
+                placeholder={t('searchPlaceholder')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
              />
           </div>
           <div className="overflow-y-auto flex-1 p-1">
              {filteredEssences.length === 0 ? (
-                <div className="py-6 text-center text-sm text-muted-foreground">Esans bulunamadı.</div>
+                <div className="py-6 text-center text-sm text-muted-foreground">{t('noEssenceFound')}</div>
              ) : (
                 filteredEssences.map((essence) => (
                    <div

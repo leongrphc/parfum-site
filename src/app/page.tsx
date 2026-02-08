@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useCalculator } from "@/hooks/useCalculator";
+import { useLanguage } from "@/context/LanguageContext";
 import { IngredientSelector } from "@/components/IngredientSelector";
 import { BottleVisualizer } from "@/components/BottleVisualizer";
 import { MyLab } from "@/components/MyLab";
 import { CostCalculator } from "@/components/CostCalculator";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -15,6 +17,7 @@ import { Save, Beaker, Wine, Droplets, SprayCan, RotateCcw } from "lucide-react"
 import { Formula } from "@/lib/types";
 
 export default function Home() {
+  const { t } = useLanguage();
   const {
     totalVolume, setTotalVolume,
     targetConcentration, setTargetConcentration,
@@ -43,7 +46,7 @@ export default function Home() {
 
   const handleSave = () => {
     if (!results || !essence) return;
-    
+
     const newFormula: Formula = {
       id: crypto.randomUUID(),
       name: `${essence.muadil} Formulation`,
@@ -59,7 +62,7 @@ export default function Home() {
     const updatedFormulas = [newFormula, ...formulas];
     setFormulas(updatedFormulas);
     localStorage.setItem('perfume-lab-formulas', JSON.stringify(updatedFormulas));
-    
+
     // Clear optional fields after save
     setNotes("");
   };
@@ -88,13 +91,16 @@ export default function Home() {
       <header className="mb-8 text-center md:text-left flex justify-between items-end">
         <div>
             <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-amber-200 via-yellow-500 to-amber-700 bg-clip-text text-transparent drop-shadow-sm font-serif">
-            Perfume Lab
+            {t('title')}
             </h1>
-            <p className="text-muted-foreground mt-2">Professional Formulation & Ratio Calculator</p>
+            <p className="text-muted-foreground mt-2">{t('subtitle')}</p>
         </div>
-        <Button variant="ghost" size="sm" onClick={reset} className="text-muted-foreground hover:text-white">
-            <RotateCcw className="w-4 h-4 mr-2" /> Reset
-        </Button>
+        <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <Button variant="ghost" size="sm" onClick={reset} className="text-muted-foreground hover:text-white">
+                <RotateCcw className="w-4 h-4 mr-2" /> {t('reset')}
+            </Button>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -103,44 +109,44 @@ export default function Home() {
           <Card className="bg-white/5 border-white/10 backdrop-blur-md">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-amber-500">
-                <Beaker className="w-5 h-5" /> Ingredients
+                <Beaker className="w-5 h-5" /> {t('ingredients')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label>Fragrance Essence</Label>
+                <Label>{t('fragranceEssence')}</Label>
                 <IngredientSelector value={essence} onChange={setEssence} />
                 {essence && (
                    <div className="text-xs text-muted-foreground flex justify-between px-1">
-                     <span>Density: {essence.yogunluk || "0.95"} g/ml</span>
-                     <span>Brand: {essence.brand_search}</span>
+                     <span>{t('density')}: {essence.yogunluk || "0.95"} g/ml</span>
+                     <span>{t('brand')}: {essence.brand_search}</span>
                    </div>
                 )}
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <Label>Total Volume</Label>
+                  <Label>{t('totalVolume')}</Label>
                   <span className="font-mono text-amber-500">{totalVolume} ml</span>
                 </div>
-                <Slider 
-                  value={[totalVolume]} 
-                  onValueChange={(v) => setTotalVolume(v[0])} 
-                  max={500} 
-                  step={10} 
+                <Slider
+                  value={[totalVolume]}
+                  onValueChange={(v) => setTotalVolume(v[0])}
+                  max={500}
+                  step={10}
                   className="py-2"
                 />
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <Label>Concentration (Essence)</Label>
+                  <Label>{t('concentration')}</Label>
                   <span className="font-mono text-amber-500">{targetConcentration}%</span>
                 </div>
-                <Slider 
-                  value={[targetConcentration]} 
-                  onValueChange={(v) => setTargetConcentration(v[0])} 
-                  max={40} 
+                <Slider
+                  value={[targetConcentration]}
+                  onValueChange={(v) => setTargetConcentration(v[0])}
+                  max={40}
                   step={1}
                 />
                 <div className="flex justify-between text-xs text-muted-foreground px-1">
@@ -149,32 +155,32 @@ export default function Home() {
                   <span>Parfum (30%)</span>
                 </div>
               </div>
-              
+
               <div className="border-t border-white/10 pt-4 space-y-4">
-                <Label className="text-xs uppercase tracking-widest text-muted-foreground">Auxiliary</Label>
-                
+                <Label className="text-xs uppercase tracking-widest text-muted-foreground">{t('auxiliary')}</Label>
+
                 <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                        <Label className="font-normal flex items-center gap-2"><Droplets className="w-3 h-3 text-blue-400"/> Water (Aqua)</Label>
+                        <Label className="font-normal flex items-center gap-2"><Droplets className="w-3 h-3 text-blue-400"/> {t('waterAqua')}</Label>
                         <span className="font-mono text-blue-400">{waterPercentage}%</span>
                     </div>
-                    <Slider 
-                    value={[waterPercentage]} 
-                    onValueChange={(v) => setWaterPercentage(v[0])} 
-                    max={20} 
+                    <Slider
+                    value={[waterPercentage]}
+                    onValueChange={(v) => setWaterPercentage(v[0])}
+                    max={20}
                     step={0.5}
                     />
                 </div>
 
                 <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                        <Label className="font-normal flex items-center gap-2"><SprayCan className="w-3 h-3 text-purple-400"/> Fixative</Label>
+                        <Label className="font-normal flex items-center gap-2"><SprayCan className="w-3 h-3 text-purple-400"/> {t('fixative')}</Label>
                         <span className="font-mono text-purple-400">{fixativePercentage}%</span>
                     </div>
-                    <Slider 
-                    value={[fixativePercentage]} 
-                    onValueChange={(v) => setFixativePercentage(v[0])} 
-                    max={10} 
+                    <Slider
+                    value={[fixativePercentage]}
+                    onValueChange={(v) => setFixativePercentage(v[0])}
+                    max={10}
                     step={0.5}
                     />
                 </div>
@@ -184,8 +190,8 @@ export default function Home() {
           </Card>
 
           {results && (
-              <CostCalculator 
-                essayWeight={results.essence.gr} 
+              <CostCalculator
+                essayWeight={results.essence.gr}
                 alcoholMl={results.alcohol.ml}
                 waterMl={results.water.ml}
                 fixativeMl={results.fixative.ml}
@@ -198,7 +204,7 @@ export default function Home() {
         {/* MIDDLE COLUMN: Visualizer */}
         <div className="lg:col-span-4 flex flex-col items-center justify-center min-h-[300px] lg:min-h-auto relative">
            <div className="absolute inset-0 bg-amber-500/5 rounded-full blur-3xl transform scale-75 animate-pulse" />
-           <BottleVisualizer 
+           <BottleVisualizer
              essencePct={results?.essence.percentage || 0}
              alcoholPct={results?.alcohol.percentage || 0}
              waterPct={results?.water.percentage || 0}
@@ -207,7 +213,7 @@ export default function Home() {
            {results && (
               <div className="mt-8 text-center space-y-1">
                   <div className="text-3xl font-bold font-mono text-gray-200">{results.totalWeight.toFixed(1)} <span className="text-sm text-gray-500">gr</span></div>
-                  <div className="text-xs uppercase tracking-widest text-muted-foreground">Total Weight</div>
+                  <div className="text-xs uppercase tracking-widest text-muted-foreground">{t('totalWeight')}</div>
               </div>
            )}
         </div>
@@ -217,29 +223,29 @@ export default function Home() {
            <Card className="bg-white/5 border-white/10 backdrop-blur-md h-full flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-amber-500">
-                <Wine className="w-5 h-5" /> Formulation
+                <Wine className="w-5 h-5" /> {t('formulation')}
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-1 space-y-6">
                 {!results ? (
                     <div className="flex items-center justify-center h-40 text-muted-foreground text-sm">
-                        Select an essence to see ratios.
+                        {t('selectEssence')}
                     </div>
                 ) : (
                     <>
                         <div className="space-y-4">
-                            <ResultRow label="Essence Oil" color="bg-yellow-500" data={results.essence} />
-                            <ResultRow label="Alcohol (Solvent)" color="bg-indigo-500" data={results.alcohol} />
-                            <ResultRow label="Water" color="bg-blue-500" data={results.water} />
-                            <ResultRow label="Fixative" color="bg-purple-500" data={results.fixative} />
+                            <ResultRow label={t('essenceOil')} color="bg-yellow-500" data={results.essence} />
+                            <ResultRow label={t('alcoholSolvent')} color="bg-indigo-500" data={results.alcohol} />
+                            <ResultRow label={t('water')} color="bg-blue-500" data={results.water} />
+                            <ResultRow label={t('fixative')} color="bg-purple-500" data={results.fixative} />
                         </div>
-                        
+
                         <div className="mt-auto pt-6 space-y-3">
                              <div className="space-y-1">
-                                <Label className="text-xs text-muted-foreground">Notes</Label>
-                                <Textarea 
+                                <Label className="text-xs text-muted-foreground">{t('notes')}</Label>
+                                <Textarea
                                    className="bg-black/20 border-white/10 min-h-[80px] text-xs"
-                                   placeholder="Add notes about maturation or procedure..."
+                                   placeholder={t('notesPlaceholder')}
                                    value={notes}
                                    onChange={(e) => setNotes(e.target.value)}
                                 />
@@ -247,11 +253,11 @@ export default function Home() {
 
                             {results.isValid ? (
                                 <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold" onClick={handleSave}>
-                                    <Save className="mr-2 w-4 h-4" /> Save Formula
+                                    <Save className="mr-2 w-4 h-4" /> {t('saveFormula')}
                                 </Button>
                             ) : (
                                 <div className="text-red-400 text-center text-sm font-semibold border border-red-500/20 bg-red-500/10 p-2 rounded">
-                                    Error: Total exceeds 100%
+                                    {t('errorExceeds')}
                                 </div>
                             )}
                         </div>
@@ -260,7 +266,7 @@ export default function Home() {
             </CardContent>
           </Card>
         </div>
-        
+
         {/* BOTTOM ROW: MyLab */}
         <div className="lg:col-span-12">
             <MyLab formulas={formulas} onLoad={loadFormula} onDelete={handleDelete} />
